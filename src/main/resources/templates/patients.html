@@ -32,7 +32,7 @@
                     <td th:text="${p.isMalade()}"></td>
                     <td th:text="${p.getScore()}"></td>
                     <td><a onclick="return confirm('Etes vous sure de vouloir supprimer? ')" class="btn btn-danger" th:href="@{delete(id=${p.getId()},keyword=${keyword},page=${currentPage})}" type="submit">Supprimer</a></td>
-                    <td><a class="btn btn-success" th:href="@{editPatient(id=${p.getId()})}" type="submit">Editer</a></td>
+                    <td><a class="btn btn-success" th:href="@{editPatient(id=${p.getId()},keyword=${keyword},page=${currentPage})}" type="submit">Editer</a></td>
                 </tr>
                 </tbody>
             </table>
