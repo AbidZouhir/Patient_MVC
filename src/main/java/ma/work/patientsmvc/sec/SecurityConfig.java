@@ -1,5 +1,7 @@
 package ma.work.patientsmvc.sec;
 
+import lombok.AllArgsConstructor;
+import ma.work.patientsmvc.sec.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +26,10 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfig {
+
+    private UserDetailsServiceImpl userDetailsServiceImpl;
     /*@Autowired
     @Lazy
     private PasswordEncoder passwordEncoder;*/
@@ -36,10 +41,13 @@ public class SecurityConfig {
         UserDetails admin= User.withUsername("admin").password(passwordEncoder.encode("1234")).roles("ADMIN","USER").build();
         return new InMemoryUserDetailsManager(user1,user2,admin);
     }*/
-    @Bean
+
+    /*@Bean
     public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource){
         return new JdbcUserDetailsManager(dataSource);
-    }
+    }*/
+
+
     /*@Bean
     PasswordEncoder encoder(){
         return new BCryptPasswordEncoder();
@@ -54,6 +62,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry.requestMatchers("/admin/**").hasRole("ADMIN"));
         http.authorizeHttpRequests((authorize)-> authorize.anyRequest().authenticated());
         http.exceptionHandling((exception)-> exception.accessDeniedPage("/notAuthorized"));
+        http.userDetailsService(userDetailsServiceImpl);
         return http.build();
     }
 
